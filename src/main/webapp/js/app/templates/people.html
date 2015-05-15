@@ -1,0 +1,75 @@
+﻿<div class="text-center col-md-12" ng-controller="PeopleCtrl">
+    <h1>People</h1>
+    <p ng-show="!!appData.msg" class="bg-warning">
+        <span ng-bind="appData.msg"></span>
+    </p>
+    <p>
+        <a href="" ng-click="addTestData()">Add test data</a><br />
+    </p>
+    <p class="" ng-hide="true">
+        <input type="text" ng-model="searchByFirstName" />&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-success btn-lg option" ng-click="doSearchByFirstName()" ng-disabled="searchByFirstName.length < 1">Search by first name</button>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Birth time</th>
+                <th>Last changed</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="person in appData.people | filter:{active:true}">
+                <td>{{person.id}}</td>
+                <td>
+                    <span ng-hide="person.id === personToEdit">{{person.firstName}}</span>
+                    <input type="text" ng-model="person.firstName" ng-show="person.id === personToEdit" />
+                </td>
+                <td>
+                    <span ng-hide="person.id === personToEdit">{{person.lastName}}</span>
+                    <input type="text" ng-model="person.lastName" ng-show="person.id === personToEdit" />
+                </td>
+                <td>
+                    <span ng-hide ="person.id === personToEdit">{{person.birthTime | date: "yyyy-MM-dd"}}</span>
+                    <input type="date" id="exampleInput" name="input" ng-model="personToEditBirthTime.value" ng-show="person.id === personToEdit"
+                           placeholder="yyyy-MM-dd" min="1900-01-01" required />
+                </td>
+                <td>{{person.lastChangedTime}}</td>
+                <td>
+                    <button class="btn btn-success btn-lg option" ng-click="editPerson(person.id)"
+                            ng-hide="person.id === personToEdit">
+                        Edit
+                    </button>
+
+                    <button class="btn btn-success btn-lg option" ng-click="saveEditedPerson(person.id)"
+                            ng-show="person.id === personToEdit">
+                        Save
+                    </button>
+                    <br />
+                    <a href="" ng-click="hidePerson(person.id)" ng-show="person.id === personToEdit">Hide</a><br />
+                    <a href="" ng-click="deletePerson(person.id)" ng-show="person.id === personToEdit">Delete</a><br />
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    <input type="text" ng-model="newPerson.firstName" />
+                </td>
+                <td>
+                    <input type="text" ng-model="newPerson.lastName" />
+                </td>
+                <td>
+                    <input type="date" ng-model="newPerson.birthTime" placeholder="yyyy-MM-dd" min="1900-01-01" required />
+                </td>
+                <td>{{newPerson.lastChangedTime}}</td>
+                <td><button class="btn btn-success btn-lg option" ng-click="saveNewPerson()">Save</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
